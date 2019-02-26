@@ -1,0 +1,30 @@
+Sub stocktotals()
+
+For Each ws In Worksheets
+    Dim lastRow As Long
+    lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+    Dim tickers As Integer
+    ws.Cells(1, 9).Value = "Ticker"
+    ws.Cells(1, 10).Value = "Total Stock Volume"
+    tickers = 1
+    
+    For i = 2 To lastRow
+    
+        'New ticker
+        If Cells(i, 1) <> Cells(i - 1, 1) Then
+        
+            'move to next row in summary table
+            tickers = tickers + 1
+            ws.Cells(tickers, 9) = ws.Cells(i, 1)
+            ws.Cells(tickers, 10) = ws.Cells(i, 7)
+            
+        'Same ticker
+        Else
+            ws.Cells(tickers, 10) = ws.Cells(tickers, 10) + ws.Cells(i, 7)
+        End If
+    Next i
+
+
+Next ws
+
+End Sub
